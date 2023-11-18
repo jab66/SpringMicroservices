@@ -42,11 +42,11 @@ public class StudentController {
         return studentService.findAllStudentsByCourseId(idCourse);
     }
 
-    @Value("${saludo.mensaje}")
-    private String saludo;
+    @Value("${spring.application.name}")
+    private String appName;
 
-    @GetMapping("saludo")
-    public String verSaludo (){
-        return "El saludo es: " + saludo;
+    @GetMapping("/app")
+    public String getAppName (){
+        return appName;
     }
 }

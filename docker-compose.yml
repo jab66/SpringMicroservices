@@ -1,0 +1,30 @@
+version: "3"
+services:
+  db-students:
+    container_name: microservices1
+    image: mysql:8.0.33
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: microservices1
+      MYSQL_USER: jorge
+      MYSQL_PASSWORD: test123
+    ports:
+      - 3306:3306
+    expose:
+      - 3306
+    command: -p 3306
+
+  db-courses:
+    container_name: microservices2
+    image: postgres:15.2
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: microservices2
+      POSTGRES_USER: jorge
+      POSTGRES_PASSWORD: test123
+    ports:
+      - 5432:5432
+    expose:
+      - 5432
+    command: -p 5432
+

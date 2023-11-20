@@ -47,8 +47,8 @@ public class CourseController {
         return studentClient.getStudentByServiceStudent(id);
     }
 
-    @GetMapping("/courses/student/{idCourse}")
-    public CoursesByStudentRecord getCoursesByStudent(@PathVariable Long idCourse){
+    @GetMapping("/studentByIdCourse/{idCourse}")
+    public CoursesByStudentRecord getStudentByIdCourse(@PathVariable Long idCourse){
         List<StudentRecord> listStudentRecord = studentClient.getCoursesByStudent(idCourse);
         Course course = courseService.findById(idCourse);
         return courseService.getCoursesByStudent(listStudentRecord, course);

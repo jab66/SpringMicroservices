@@ -4,6 +4,7 @@ import com.example.student.entity.Student;
 import com.example.student.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
@@ -17,6 +18,9 @@ public class StudentController {
 
     @Autowired
     private StudentService studentService;
+
+    @Autowired
+    private Environment environment;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -47,6 +51,6 @@ public class StudentController {
 
     @GetMapping("/app")
     public String getAppName (){
-        return appName;
+        return appName + ", port: " + environment.getProperty("local.server.port");
     }
 }

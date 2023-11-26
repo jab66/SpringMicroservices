@@ -6,6 +6,8 @@ import com.example.course.client.StudentRecord;
 import com.example.course.entity.Course;
 import com.example.course.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +22,9 @@ public class CourseController {
 
     @Autowired
     private StudentClient studentClient;
+
+    @Autowired
+    private Environment environment;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -39,17 +44,25 @@ public class CourseController {
         return courseService.findAll();
     }
 
+    @Value("${spring.application.name}")
+    private String appName;
+
+    @GetMapping("/app")
+    public String getAppName (){
+        return appName + ", port: " + environment.getProperty("local.server.port");
+    }
+
     //
-    // metodos que llaman a otro microservicios ---------------------------------
+    // call microservice student
     //
     @GetMapping("/student/{id}")
     public StudentRecord getStudentByServiceStudent(@PathVariable Long id){
-        return studentClient.getStudentByServiceStudent(id);
+        return studentClient.findById(id);
     }
 
     @GetMapping("/studentByIdCourse/{idCourse}")
     public CoursesByStudentRecord getStudentByIdCourse(@PathVariable Long idCourse){
-        List<StudentRecord> listStudentRecord = studentClient.getCoursesByStudent(idCourse);
+        List<StudentRecord> listStudentRecord = studentClient.findAllStudentsByCourseId(idCourse);
         Course course = courseService.findById(idCourse);
         return courseService.getCoursesByStudent(listStudentRecord, course);
     }
